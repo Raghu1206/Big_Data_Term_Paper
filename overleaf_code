@@ -1,0 +1,258 @@
+\documentclass[11pt, a4paper]{article}
+
+% Packages
+\usepackage[english]{babel}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{lipsum}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{parskip}
+
+% Document settings
+\geometry{
+    top=2cm,
+    bottom=2cm,
+    left=2.2cm,
+    right=2.2cm,
+    includehead,
+}
+\setlength{\parindent}{15pt}
+\linespread{1.5}
+
+% Title
+\title{Network Anomaly Detection Systems}
+\author{G. Harsha Praneeth -2101CS29, G. Raghavendra - 2101CS30}
+\date{\small \today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This term paper analysis provides detailed examination of Network Anomaly Detection Systems (NADS) through comprehensive textual discussion. The document covers fundamental principles, detection methodologies, implementation challenges, and future directions, presenting an in-depth exploration of statistical, machine learning, and hybrid approaches to identifying anomalous network behavior. The analysis includes thorough technical discussion of performance characteristics, real-world deployment considerations, and emerging trends in the field, supported by current research findings and practical insights.
+\end{abstract}
+
+\section{Introduction to Network Anomaly Detection}
+Network Anomaly Detection Systems have become fundamental components of modern cybersecurity infrastructure, evolving from simple threshold-based alerts to sophisticated behavioral analysis platforms. These systems operate by establishing baselines of normal network activity and subsequently identifying deviations that may indicate security incidents, performance issues, or operational anomalies. The increasing complexity of network environments, coupled with the growing sophistication of cyber threats, has made anomaly detection an essential capability for organizations of all sizes.
+
+The fundamental challenge in network anomaly detection lies in accurately distinguishing between legitimate variations in network behavior and genuinely malicious or problematic activity. This distinction becomes particularly difficult in large-scale, dynamic networks where traffic patterns naturally fluctuate based on time-of-day usage patterns, seasonal business cycles, and evolving application requirements. Modern detection systems must maintain high sensitivity to genuine threats while minimizing false positives that can lead to operational fatigue among security teams.
+
+Recent advances in machine learning and artificial intelligence have significantly enhanced anomaly detection capabilities, enabling systems to learn complex patterns and adapt to evolving network conditions. These advanced methods can identify subtle correlations across multiple dimensions of network activity that would be imperceptible to traditional rule-based systems. However, these sophisticated approaches come with their own challenges, including substantial computational requirements, the need for extensive training data, and the complexity of model interpretation.
+
+\section{Historical Development of Detection Methods}
+The evolution of network anomaly detection can be traced through three distinct generations of technological approaches, each representing significant advancements in capability and sophistication. The first generation, prevalent from the early 1980s through the mid-1990s, relied primarily on simple statistical thresholds and basic rule-based systems. These early solutions monitored fundamental network metrics such as connection counts, traffic volume, and protocol distribution, flagging any values that exceeded predetermined static thresholds. While these systems provided basic anomaly detection capabilities, they were prone to both false positives and false negatives, particularly in dynamic network environments.
+
+The second generation emerged in the late 1990s and dominated through the first decade of the 2000s, introducing more sophisticated signature-based detection and protocol analysis capabilities. These systems could recognize known attack patterns by examining packet headers and payload contents against extensive databases of attack signatures. The introduction of stateful inspection allowed these systems to track communication sessions rather than just individual packets, significantly improving detection accuracy for multi-stage attacks. However, their fundamental reliance on predefined signatures made them inherently vulnerable to novel, previously unseen attack vectors that didn't match known patterns.
+
+The current third generation of anomaly detection systems, developed since approximately 2010, leverages advanced machine learning techniques to establish dynamic behavioral baselines and identify deviations. These modern systems employ sophisticated algorithms that can detect previously unknown threats by analyzing complex patterns across multiple dimensions of network activity simultaneously. Unlike their predecessors, these systems can adapt to evolving network conditions and learn new patterns of normal behavior, representing a significant advancement in cybersecurity capability. However, these advanced systems require careful tuning and continuous maintenance to avoid excessive computational overhead and ensure ongoing accuracy.
+
+\section{Fundamental Concepts and Terminology}
+Understanding network anomaly detection requires familiarity with several key concepts and terminology that form the foundation of the field. Anomalies in network traffic can be categorized into three primary types based on their characteristics and detection requirements. Point anomalies represent individual data instances that deviate significantly from normal behavior, such as a single unusually large data transfer or connection attempt from an unexpected location. These are typically the simplest anomalies to detect, as they stand out clearly from normal traffic patterns.
+
+Contextual anomalies appear normal when examined in isolation but become suspicious within specific contexts or circumstances. Examples include network traffic patterns that would be typical during business hours but are highly unusual at 3:00 AM, or login attempts from geographically improbable locations given the user's recent activity history. Detecting these anomalies requires systems to maintain and analyze contextual information about network operations and user behavior.
+
+Collective anomalies involve sets of related instances that together indicate suspicious activity, though individual components might appear normal when examined separately. Distributed denial-of-service (DDoS) attacks often manifest as collective anomalies, where no single connection attempt appears particularly suspicious, but the aggregate pattern reveals malicious intent. Detecting these anomalies requires analyzing relationships and patterns across multiple network events over time.
+
+Modern anomaly detection systems employ various technical approaches to identify these different anomaly types. Statistical methods use mathematical models to quantify normal behavior and identify deviations. Machine learning techniques automatically learn patterns from historical data, with supervised approaches using labeled examples and unsupervised methods discovering patterns independently. Hybrid systems combine multiple approaches to leverage their respective strengths while mitigating individual weaknesses.
+
+The performance of anomaly detection systems is typically measured using several key metrics that provide different perspectives on system effectiveness. The detection rate, also called true positive rate or recall, measures the proportion of actual anomalies that the system correctly identifies. This is particularly important for security applications where missing real threats can have serious consequences. The false positive rate tracks how often normal traffic is incorrectly flagged as anomalous, which is crucial for operational efficiency as excessive false alerts can overwhelm security teams.
+
+Precision indicates what percentage of flagged anomalies are genuine threats rather than false alarms, while the F1 score combines precision and recall into a single balanced metric. The area under the receiver operating characteristic curve (AUC-ROC) provides a comprehensive view of system performance across all possible detection thresholds. More sophisticated metrics like the Matthews correlation coefficient (MCC) account for all categories of classification results, providing a more robust assessment particularly for imbalanced datasets where anomalies are rare.
+
+\section{Statistical Approaches to Anomaly Detection}
+Statistical methods form the historical foundation of network anomaly detection and continue to play important roles in modern systems, particularly for initial screening and baseline establishment. These approaches operate by building mathematical models of normal network behavior using historical data, then identifying deviations from these models as potential anomalies. The simplest statistical methods employ static thresholds for individual metrics like bandwidth utilization, connection rates, or error percentages, flagging any values that exceed predetermined limits.
+
+More sophisticated statistical techniques employ time-series analysis to account for normal fluctuations and periodic patterns in network activity. Autoregressive integrated moving average (ARIMA) models can predict expected traffic patterns based on historical trends, while exponential weighted moving average (EWMA) techniques provide responsive yet smoothed estimates of current conditions. These methods are particularly effective for detecting volumetric anomalies like DDoS attacks or flash crowds that cause significant deviations from expected traffic levels.
+
+Markov models and hidden Markov models (HMMs) represent another important class of statistical techniques for anomaly detection. These approaches model network behavior as sequences of states and transitions, learning the normal probabilities of moving between different operational states. This makes them particularly effective for detecting multi-stage attacks that involve specific sequences of network events, or for identifying abnormal sequences of user actions that might indicate account compromise.
+
+Statistical methods offer several important advantages that maintain their relevance despite the advent of more sophisticated techniques. Their computational efficiency makes them practical for high-speed networks where processing resources are constrained. The mathematical foundations of these methods make their operation transparent and their decisions interpretable, which is crucial for security operations where understanding why an alert was generated is as important as the alert itself. Additionally, statistical models typically require less training data than machine learning approaches and can often be deployed more quickly.
+
+However, purely statistical approaches face significant limitations in contemporary network environments. They struggle with high-dimensional data where anomalies may only be apparent in complex combinations of features rather than individual metrics. They often fail to detect sophisticated attacks that carefully mimic normal traffic patterns or operate just below detection thresholds. These limitations have driven the development of more advanced machine learning techniques that can capture complex, nonlinear relationships in network data.
+
+\section{Machine Learning Techniques in Anomaly Detection}
+Machine learning has revolutionized network anomaly detection by enabling systems to automatically learn complex patterns from data without explicit programming of detection rules. Supervised learning approaches train on labeled datasets containing examples of both normal and anomalous network traffic, learning to distinguish between them. These methods can achieve high accuracy when sufficient high-quality training data is available, but obtaining comprehensive labeled datasets for network traffic is often challenging and expensive due to the rarity of anomalies and the expertise required for proper labeling.
+
+Unsupervised learning techniques address this limitation by operating on unlabeled data, identifying anomalies as observations that differ significantly from the majority of network traffic. Clustering algorithms like k-means or DBSCAN group similar network events together, flagging outliers as potential anomalies. Density-based methods estimate the probability distribution of normal traffic and flag low-probability events, while techniques like isolation forests explicitly isolate anomalies rather than profiling normal behavior. These unsupervised approaches are particularly valuable for detecting previously unknown attack patterns.
+
+Semi-supervised approaches represent a practical middle ground, using small amounts of labeled data to guide the analysis of larger unlabeled datasets. These methods typically train on normal traffic only, learning its characteristics and flagging deviations as potential anomalies. This approach aligns well with network security scenarios where examples of normal operation are abundant but confirmed attacks are rare. One-class support vector machines (SVMs) and autoencoders are common semi-supervised techniques used in anomaly detection.
+
+Recent advances in deep learning have introduced powerful new capabilities for network anomaly detection. Recurrent neural networks (RNNs), particularly long short-term memory (LSTM) networks, excel at analyzing temporal sequences in network traffic, making them effective for detecting time-based attack patterns. Convolutional neural networks (CNNs) can identify spatial patterns in network flow data, while transformer architectures capture long-range dependencies in network behavior. Deep autoencoders learn compressed representations of normal traffic and flag reconstruction errors as potential anomalies.
+
+The choice of machine learning approach depends on several factors including available training data, computational resources, and detection requirements. Ensemble methods that combine multiple algorithms often achieve superior performance by leveraging their complementary strengths. However, these sophisticated techniques require careful implementation to manage their computational demands and ensure practical operational performance in production network environments.
+
+\section{Feature Engineering for Detection Systems}
+Effective anomaly detection relies heavily on the selection and engineering of appropriate network features that capture relevant aspects of behavior. Basic features include simple measurements like packet sizes, protocol types, and source/destination addresses and ports. While these provide a fundamental starting point, modern detection systems typically derive more sophisticated features that capture deeper aspects of network behavior and relationships.
+
+Temporal features track patterns and changes over time, such as connection rates per minute, session duration distributions, or inter-arrival times between packets. These features are particularly important for detecting attacks that unfold over time or that involve timing patterns like port scanning or brute force attempts. Statistical features characterize distributions and variations, including measures like entropy of destination ports, variance in packet sizes, or cardinality of connection sources. These help identify unusual concentrations or dispersions that might indicate malicious activity.
+
+Behavioral features attempt to characterize typical activity patterns for specific users, devices, or applications, then detect deviations from these established profiles. Examples include the set of services a user typically accesses, the geographical locations from which they connect, or the time-of-day patterns of their activity. These features are particularly valuable for detecting account compromise or insider threats where the attacker is using legitimate credentials.
+
+Feature selection is critical because irrelevant or redundant features can degrade detection performance while unnecessarily increasing computational requirements. Techniques like principal component analysis (PCA) can help reduce dimensionality while preserving detection capability. Mutual information scoring can identify features that are most predictive of anomalies. The optimal feature set depends heavily on the specific network environment, the types of anomalies being targeted, and the detection algorithms being employed.
+
+Feature engineering must also consider the operational constraints of the network environment. Features that require extensive computation or that depend on information not available in real-time may be impractical for high-speed detection. The overhead of feature extraction must be balanced against its value for detection accuracy. Additionally, features should be robust against intentional evasion attempts by sophisticated attackers who may attempt to manipulate observable characteristics to avoid detection.
+
+\section{Performance Evaluation Methodologies}
+Evaluating the effectiveness of network anomaly detection systems requires careful experimental design and appropriate metrics that reflect operational requirements. Researchers typically use benchmark datasets containing labeled examples of both normal and anomalous traffic to enable standardized comparisons. Common datasets include the KDD Cup 99 data (despite its age and known limitations), the improved NSL-KDD version, and more recent collections like the CICIDS datasets that reflect contemporary network environments and attack types.
+
+Cross-validation techniques are essential for obtaining reliable performance estimates, particularly given the typically imbalanced nature of network data where anomalies represent a small minority of examples. Time-based splitting is especially important for network traffic evaluation, where simple random splitting could lead to unrealistic temporal dependencies between training and test sets. Real-world evaluation should also include concept drift testing to assess how well systems maintain accuracy as network behavior evolves over time.
+
+Beyond basic classification metrics like accuracy and recall, comprehensive evaluation should examine operational characteristics that determine practical utility. Detection latency measures how quickly systems can identify and flag anomalies after they occur, which is critical for timely response. Throughput capacity assesses the maximum traffic volume a system can analyze without dropping packets or delaying processing. Resource requirements including memory usage and processor load determine deployment feasibility in constrained environments.
+
+Evaluation should also assess robustness against adversarial manipulation, as sophisticated attackers may attempt to evade detection by carefully crafting their traffic. Stress testing with noisy data or incomplete information helps verify system resilience. Operational testing in real network environments, while challenging, provides the most realistic assessment of how systems will perform in production use.
+
+Interpretability and explainability are increasingly important evaluation criteria, as security operators need to understand why particular events were flagged to investigate and respond effectively. Systems that provide clear explanations for their decisions, rather than just binary alerts, enable more efficient security operations. The ability to tune sensitivity and adjust to different operational priorities is another important practical consideration.
+
+\section{Implementation Challenges}
+Deploying anomaly detection systems in production networks presents numerous practical challenges that must be addressed for successful implementation. Concept drift, where normal network behavior evolves over time due to changing applications, user populations, or business requirements, can gradually degrade detection accuracy. Systems must incorporate mechanisms for continuous model updating and adaptation to maintain effectiveness without requiring complete retraining.
+
+The volume and velocity of network traffic in modern enterprises can overwhelm detection systems not designed for scale. High-speed backbone links may carry hundreds of gigabits per second, requiring highly optimized implementations or distributed processing architectures. The increasing use of encryption, while important for privacy and security, prevents inspection of packet contents, forcing detection systems to rely on metadata and traffic patterns that may provide less definitive indicators of malicious activity.
+
+Integration with existing security infrastructure presents another significant challenge. Anomaly detection systems must interface with security information and event management (SIEM) platforms, firewall controls, and incident response systems to enable comprehensive protection. These integrations require careful configuration to ensure proper information flow and avoid overwhelming downstream systems with excessive alerts.
+
+Perhaps the most critical operational challenge is managing alert fatigue caused by false positives. Even relatively accurate systems can generate overwhelming numbers of alerts in large networks, leading to genuine threats being overlooked amid the noise. Effective alert prioritization, correlation, and triage mechanisms are essential for practical deployment. Visualization techniques that help operators quickly comprehend and investigate potential threats can significantly improve operational efficiency.
+
+Resource constraints, both computational and human, often limit the sophistication of detection systems that can be practically deployed. Organizations must balance detection accuracy against operational costs, choosing approaches that provide adequate protection without requiring excessive infrastructure or staffing. Cloud-based detection services and managed security services have emerged as potential solutions for organizations lacking in-house expertise or resources.
+
+\section{Hybrid Detection Approaches}
+Recognizing that no single technique excels at all aspects of anomaly detection, many modern systems combine multiple approaches in hybrid architectures that leverage their complementary strengths. A common pattern uses lightweight statistical methods for initial high-volume filtering, followed by more sophisticated machine learning analysis on the subset of traffic identified as potentially suspicious. This layered approach provides a favorable balance between computational efficiency and detection accuracy.
+
+Some hybrid systems implement parallel detection paths, with different algorithms specializing in particular types of anomalies. For example, one path might focus on volumetric anomalies using time-series analysis, while another examines behavioral patterns using clustering techniques. Results from these parallel detectors are then combined using ensemble methods or voting systems to produce final determinations. This approach can provide more comprehensive coverage than any single technique alone.
+
+Other architectures employ sequential analysis pipelines where each stage applies increasingly sophisticated techniques to traffic that passes through previous filters. Early stages might use simple rules to eliminate clearly normal traffic, middle stages could apply statistical models to identify probable anomalies, and final stages might employ deep learning for detailed analysis of the most suspicious events. This progressive refinement allows systems to focus their most resource-intensive analysis where it is most needed.
+
+Hybrid systems often combine anomaly detection with signature-based methods, gaining the complementary strengths of both approaches. The anomaly detection components provide coverage for novel, previously unseen threats, while the signature-based elements efficiently catch known attack patterns with minimal computational overhead. This combination can provide more comprehensive protection while optimizing resource utilization across the detection infrastructure.
+
+The design of hybrid systems requires careful consideration of how different components interact and how their results will be combined. Weighted voting schemes, meta-classifiers, and confidence-based selection are common approaches for integrating multiple detection methods. The specific combination of techniques should be tailored to the target network environment and the types of threats considered most likely or most dangerous.
+
+\section{Emerging Trends and Future Directions}
+The field of network anomaly detection continues to evolve rapidly, with several promising research directions emerging to address current limitations and expand capabilities. Explainable AI techniques aim to make machine learning-based detection more transparent and interpretable, helping security analysts understand why particular events were flagged as anomalous. This transparency builds trust in automated systems and facilitates more effective human oversight and investigation.
+
+Federated learning approaches enable collaborative model training across multiple organizations without requiring the sharing of sensitive network data. Each participant trains on their local data, with only model parameter updates being shared and aggregated. This method is particularly valuable for detecting widespread attacks while maintaining data privacy and complying with regulatory requirements. It also helps address the data scarcity problem by effectively pooling knowledge from diverse networks.
+
+Edge-based detection moves analysis closer to network endpoints rather than concentrating it in central servers. This distributed approach reduces the latency and bandwidth requirements associated with transmitting all network data to a central point for analysis. Edge detection is particularly relevant for IoT environments and geographically distributed organizations where network segmentation or bandwidth constraints make centralized analysis impractical.
+
+Quantum machine learning represents another frontier that may eventually enable analysis of network patterns that are computationally intractable with classical computers. While still in early stages of development, quantum approaches offer the potential for exponential speedups in certain types of pattern recognition and optimization problems relevant to anomaly detection. Quantum-resistant cryptography is also becoming an important consideration as the field advances.
+
+Adaptive systems that continuously learn from new data without requiring complete retraining are gaining attention for their ability to keep pace with evolving networks. These systems employ techniques like online learning, transfer learning, and reinforcement learning to incrementally update their models in response to new information while preserving previously learned knowledge. This capability is particularly valuable in dynamic environments where network behavior changes frequently.
+
+Integration with other security systems is another important direction, creating more comprehensive and intelligent security ecosystems. Anomaly detection systems are increasingly being combined with threat intelligence platforms, vulnerability scanners, and incident response systems to enable more proactive and coordinated defense. This trend toward security orchestration aims to reduce the time between threat detection and effective response.
+
+\section{Real-Life Use Cases of Network Anomaly Detection}
+
+Network anomaly detection systems are widely deployed across industries to identify malicious activities, operational failures, and unusual traffic patterns. Below are key real-world applications:
+
+\subsection*{i. \textbf{Enterprise Network Security}}
+\begin{itemize}
+    \item \textbf{Intrusion Detection:} Identifying brute-force attacks, port scans, or lateral movement in corporate networks (e.g., Darktrace, Cisco Stealthwatch).
+    \item \textbf{Insider Threat Detection:} Flagging unusual data exfiltration by employees (e.g., abnormal file transfers or login times).
+\end{itemize}
+
+\subsection*{ii. \textbf{Cloud and Data Center Monitoring}}
+\begin{itemize}
+    \item \textbf{AWS/GCP/Azure Security:} Detecting unauthorized API calls, DDoS attacks, or cryptojacking in cloud environments.
+    \item \textbf{Server Anomalies:} Spotting memory leaks, unexpected downtime, or ransomware encryption patterns.
+\end{itemize}
+
+\subsection*{iii. \textbf{Financial Services}}
+\begin{itemize}
+    \item \textbf{Fraudulent Transactions:} Blocking ATM/online banking attacks by detecting geo-impossible logins.
+    \item \textbf{Stock Exchange Surveillance:} Identifying spoofing or wash trading in high-frequency trading (HFT) networks.
+\end{itemize}
+
+\subsection*{iv. \textbf{Telecommunications}}
+\begin{itemize}
+    \item \textbf{Mobile Network Attacks:} Detecting SIM-swapping or SS7/Diameter protocol exploits.
+    \item \textbf{Botnet Traffic:} Identifying IoT device hijacking (e.g., Mirai botnet).
+\end{itemize}
+
+\subsection*{v. \textbf{Critical Infrastructure}}
+\begin{itemize}
+    \item \textbf{SCADA/ICS Security:} Preventing Stuxnet-like attacks on power grids or water treatment plants.
+    \item \textbf{Smart Meter Tampering:} Detecting energy theft in utility networks.
+\end{itemize}
+
+\subsection*{vi. \textbf{E-Commerce and Web Services}}
+\begin{itemize}
+    \item \textbf{Payment Gateway Fraud:} Blocking carding attacks or credential stuffing.
+    \item \textbf{API Abuse:} Identifying scraping bots or fake account creation.
+\end{itemize}
+
+\noindent These examples highlight how anomaly detection strengthens cybersecurity, operational resilience, and regulatory compliance across sectors. Future advancements in AI and federated learning will further enhance real-time threat response.
+
+\section{Conclusion}
+Network Anomaly Detection Systems have progressed significantly from their early statistical roots to today's sophisticated machine learning implementations. This evolution has been driven by the growing complexity of network environments, the increasing sophistication of cyber threats, and advances in computational techniques. Modern systems have demonstrated the ability to detect previously unknown threats with high accuracy while maintaining manageable false positive rates in production environments.
+
+Despite these advances, significant challenges remain in areas like false positive reduction, encrypted traffic analysis, and operational scalability. The increasing use of encryption for privacy protection simultaneously makes anomaly detection more difficult by hiding packet contents from inspection. The growing speed and volume of network traffic push the limits of detection systems' processing capabilities. Sophisticated attackers continue to develop evasion techniques specifically designed to avoid anomaly detection.
+
+Future progress will likely come from hybrid architectures that leverage the complementary strengths of multiple techniques while mitigating their individual weaknesses. The integration of explainable AI techniques will make sophisticated detection methods more accessible and actionable for security operators. Advances in edge computing and federated learning will enable more distributed and privacy-preserving detection approaches.
+
+As networks continue to grow in size, complexity, and importance to business operations, anomaly detection systems must correspondingly advance to provide effective security without imposing excessive overhead. The field stands at an exciting juncture, with emerging technologies offering new possibilities for threat detection. However, practical deployment considerations will remain paramount, ensuring that theoretical advances translate into real-world security improvements that are both effective and operable.
+
+\begin{table}
+\centering
+\caption{Key Characteristics of Modern NADS}
+\begin{tabular}{p{4cm}p{8cm}}
+\toprule
+\textbf{Characteristic} & \textbf{Description} \\
+\midrule
+Detection Accuracy & Modern systems achieve 90-98\% detection rates for known anomaly types \\
+False Positive Rate & Typically maintained below 10\% through careful tuning \\
+Latency & Detection delays range from milliseconds to seconds depending on method \\
+Scalability & Capable of processing 10-100 Gbps in enterprise deployments \\
+Adaptability & Continuous learning mechanisms adjust to evolving network conditions \\
+\bottomrule
+\end{tabular}
+\label{tab:summary}
+\end{table}
+
+\begin{table}
+\centering
+\caption{Comparison of Anomaly Detection Techniques}
+\begin{tabular}{p{4cm}p{4cm}p{4cm}}
+\toprule
+\textbf{Technique} & \textbf{Strengths} & \textbf{Limitations} \\
+\midrule
+Statistical Methods & Computationally efficient, interpretable & Poor with complex patterns \\
+Machine Learning & Adaptable to new threats & Requires training data \\
+Deep Learning & Handles high-dimensional data & Computationally intensive \\
+Hybrid Approaches & Balanced performance & Complex implementation \\
+\bottomrule
+\end{tabular}
+\label{tab:comparison}
+\end{table}
+
+
+\section*{References}
+\begin{enumerate}
+\item Chandola, V., Banerjee, A., \& Kumar, V. (2009). Anomaly detection: A survey. ACM Computing Surveys, 41(3), 1-58.
+
+\item Ahmed, M., Mahmood, A. N., \& Hu, J. (2016). A survey of network anomaly detection techniques. Journal of Network and Computer Applications, 60, 19-31.
+
+\item Liu, F. T., Ting, K. M., \& Zhou, Z.-H. (2020). Deep learning for anomaly detection in network traffic. Journal of Network and Systems Management, 28(4), 1334-1361.
+
+\item Ringberg, H., Soule, A., Rexford, J., \& Diot, C. (2007). Sensitivity of PCA for traffic anomaly detection. ACM SIGMETRICS Performance Evaluation Review, 35(1), 109-120.
+
+\item Yin, C., Zhu, Y., Liu, S., Fei, J., \& Zhang, H. (2018). Deep learning for network traffic monitoring and analysis. IEEE Access, 6, 70808-70823.
+
+\item Garcia-Teodoro, P., Diaz-Verdejo, J., Maciá-Fernández, G., \& Vázquez, E. (2009). Anomaly-based network intrusion detection: Techniques, systems and challenges. Computers \& Security, 28(1-2), 18-28.
+
+\item Sommer, R., \& Paxson, V. (2010). Outside the closed world: On using machine learning for network intrusion detection. IEEE Symposium on Security and Privacy, 305-316.
+
+\item Tavallaee, M., Bagheri, E., Lu, W., \& Ghorbani, A. A. (2009). A detailed analysis of the KDD CUP 99 data set. IEEE Symposium on Computational Intelligence for Security and Defense Applications, 1-6.
+
+\item Mirsky, Y., Doitshman, T., Elovici, Y., \& Shabtai, A. (2018). Kitsune: An ensemble of autoencoders for online network intrusion detection. Network and Distributed Systems Security Symposium.
+
+\item Alauthman, M., Aslam, N., Zhang, L., et al. (2020). An efficient reinforcement learning-based Botnet detection approach. Journal of Network and Computer Applications, 150, 102479.
+
+\item Zhou, C., \& Paffenroth, R. C. (2017). Anomaly detection with robust deep autoencoders. ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 665-674.
+
+\item Vinayakumar, R., Soman, K. P., \& Poornachandran, P. (2019). Applying convolutional neural network for network intrusion detection. International Conference on Advances in Computing, Communications and Informatics, 1222-1228.
+\end{enumerate}
+
+\blindtext % Adds some blind text
+
+\end{document}
